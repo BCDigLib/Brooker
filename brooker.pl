@@ -128,7 +128,7 @@ sub fileSec
 			die "WARNING: more than 26 componenent files\n"
 				if ($i eq 27);  #script only set up to handle 26 components
 						    #add more components if script fails	
-			$fh->print("\t\t\t<mets:file ID=\"t" . sprintf("%04d", $i) ."\" MIMETYPE=\"image\/tiff\" GROUPID=\"GID1\" SEQ=\"$i\">\n");
+			$fh->print("\t\t\t<mets:file ID=\"t" . sprintf("%04d", $i) ."\" MIMETYPE=\"image\/tiff\" GROUPID=\"GID".$i."\" SEQ=\"$i\">\n");
 			$fh->print("\t\t\t\t<mets:FLocat xlink:href=\"file://streams/" . $_ . ".tif\" LOCTYPE=\"URL\"\/>\n"); 
 			$fh->print("\t\t\t<\/mets:file>\n");
 		}
@@ -145,7 +145,7 @@ sub fileSec
 		if (substr($_ , 8 , 4) eq $number)
 		{
 			$i++;
-			$fh->print("\t\t\t<mets:file ID=\"jp".sprintf("%04d", $i)  ."\" MIMETYPE=\"image\/jpeg\" GROUPID=\"GID1\" SEQ=\"$i\">\n");
+			$fh->print("\t\t\t<mets:file ID=\"jp".sprintf("%04d", $i)  ."\" MIMETYPE=\"image\/jpeg\" GROUPID=\"GID".$i."\" SEQ=\"$i\">\n");
 			$fh->print("\t\t\t\t<mets:FLocat xlink:href=\"file://streams/" . $_ . ".jpg\" LOCTYPE=\"URL\"\/>\n");
 			$fh->print("\t\t\t<\/mets:file>\n");
 		}
@@ -163,7 +163,7 @@ sub fileSec
 		if (substr($_ , 8 , 4) eq $number)
 		{
 			$i++;
-			$fh->print("\t\t\t<mets:file ID=\"j2k".sprintf("%04d", $i)."\" MIMETYPE=\"image\/jp2\" GROUPID=\"GID1\" SEQ=\"$i\">\n");
+			$fh->print("\t\t\t<mets:file ID=\"j2k".sprintf("%04d", $i)."\" MIMETYPE=\"image\/jp2\" GROUPID=\"GID".$i."\" SEQ=\"$i\">\n");
 $fh->print("\t\t\t\t<mets:FLocat xlink:href=\"file://streams/" . $_ . ".jp2\" LOCTYPE=\"URL\"\/>\n");
 			$fh->print("\t\t\t<\/mets:file>\n");
 
