@@ -76,7 +76,7 @@ sub structMap
 	if ($labels){@labelList = split(";", $labels);}
 	else 
 	{
-		@labelList = ("Side a", "Side b", "Side c", "Side d", "Side e", "Side f", "Side g", "Side h", "Side i", "Side j", "Side k", "Side l", "Side m", "Side n", "Side o", "Side p", "Side q", "Side r", "Side s", "Side t", "Side u", "Side v", "Side w", "Side x", "Side y", "Side z");
+		@labelList = ("Side a", "Side b", "Side c", "Side d", "Side e", "Side f", "Side g", "Side h", "Side i", "Side j", "Side k", "Side l", "Side m", "Side n", "Side o", "Side p", "Side q", "Side r", "Side s", "Side t", "Side u", "Side v", "Side w", "Side x", "Side y", "Side z","Side aa", "Side ab", "Side ac", "Side ad", "Side ae", "Side af", "Side ag", "Side ah", "Side ai", "Side aj", "Side ak", "Side al", "Side am", "Side an", "Side ao", "Side ap", "Side aq", "Side ar", "Side as", "Side at", "Side au", "Side av", "Side aw", "Side ax", "Side ay", "Side az", );
 	}
 	
 		my $i=0;
@@ -125,8 +125,8 @@ sub fileSec
 		if (substr($_ , 8 , 4) eq $number)
 		{
 			$i++;
-			die "WARNING: more than 26 componenent files\n"
-				if ($i eq 27);  #script only set up to handle 26 components
+			die "WARNING: more than 52 componenent files\n"
+				if ($i eq 53);  #script only set up to handle 52 components
 						    #add more components if script fails	
 			$fh->print("\t\t\t<mets:file ID=\"t" . sprintf("%04d", $i) ."\" MIMETYPE=\"image\/tiff\" GROUPID=\"GID".$i."\" SEQ=\"$i\">\n");
 			$fh->print("\t\t\t\t<mets:FLocat xlink:href=\"file://streams/" . $_ . ".tif\" LOCTYPE=\"URL\"\/>\n"); 
