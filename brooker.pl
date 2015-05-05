@@ -46,7 +46,9 @@ sub main
 
 	foreach my $row (@$usedRange) 
 	{
-		my $outputfile = "Brooker-".sprintf("%04d", @$row[1])."mets.xml";
+		
+		#my $outputfile = "Brooker-".sprintf("%04d", @$row[1])."mets.xml";
+		my $outputfile = "Brooker-".@$row[1]."mets.xml";
 
 		my $fh = IO::File->new($outputfile, 'w')
 			or die "unable to open output file for writing: $!";
@@ -67,7 +69,7 @@ sub structMap
 	my $fh=shift;
 	my $row=shift;
 	my ($year,$number,$type,$primaryLocation,$description,$names,$otherLocations,$labels) = @$row;
-	$number = sprintf("%04d", $number);
+	#$number = sprintf("%04d", $number);
 	$fh->print("\t<mets:structMap TYPE=\"physical\" ID=\"SMD1\">\n");
 	$fh->print("\t\t<mets:div TYPE=\"manuscript\" LABEL=\"The Robert E. Brooker III Collection of American Legal and Land Use Documents. No. $number.\" ORDER=\"1\" DMDID=\"DMD1\">\n");
 
@@ -84,7 +86,7 @@ sub structMap
 	foreach(@file)
 	{
 		chomp;
-		if (substr($_ , 8 , 4) eq $number)
+		if ((substr($_ , 8 , 4) eq $number) || (substr($_ , 8 , 7) eq $number))
 		{
 			$i++;
 			$labelList[$i-1] =~ s/^\s+|\s+$//g;
@@ -108,7 +110,7 @@ sub fileSec
 	my $fh=shift;
 	my $row=shift;
 	my ($year,$number,$type,$primaryLocation,$description,$names,$otherLocations) = @$row;
-	$number = sprintf("%04d", $number);
+	#$number = sprintf("%04d", $number);
 
 	my @file = read_file($files);
 
@@ -122,7 +124,9 @@ sub fileSec
 	foreach(@file)
 	{
 		chomp;
-		if (substr($_ , 8 , 4) eq $number)
+		if ((substr($_ , 8 , 4) eq $number) || (substr($_ , 8 , 7) eq $number))
+	
+
 		{
 			$i++;
 			die "WARNING: more than 52 componenent files\n"
@@ -142,7 +146,7 @@ sub fileSec
 	foreach(@file)
 	{
 		chomp;
-		if (substr($_ , 8 , 4) eq $number)
+		if ((substr($_ , 8 , 4) eq $number) || (substr($_ , 8 , 7) eq $number))
 		{
 			$i++;
 			$fh->print("\t\t\t<mets:file ID=\"jp".sprintf("%04d", $i)  ."\" MIMETYPE=\"image\/jpeg\" GROUPID=\"GID".$i."\" SEQ=\"$i\">\n");
@@ -160,7 +164,7 @@ sub fileSec
 	{
 		chomp;
 
-		if (substr($_ , 8 , 4) eq $number)
+		if ((substr($_ , 8 , 4) eq $number) || (substr($_ , 8 , 7) eq $number))
 		{
 			$i++;
 			$fh->print("\t\t\t<mets:file ID=\"j2k".sprintf("%04d", $i)."\" MIMETYPE=\"image\/jp2\" GROUPID=\"GID".$i."\" SEQ=\"$i\">\n");
@@ -184,7 +188,7 @@ sub mods
 	my ($year,$number,$type,$primaryLocation,$description,$names,$otherLocations) = @$row;
 	my $jr;
 
-	$number = sprintf("%04d", $number);
+	#$number = sprintf("%04d", $number);
 
 	print "\n\n$number, $type, $primaryLocation\n";
 
@@ -245,8 +249,21 @@ sub mods
 	}
 
 	$fh->print("\t\t\t\t\t<mods:originInfo>\n");
-	$fh->print("\t\t\t\t\t\t<mods:dateCreated>$year<\/mods:dateCreated>\n");
-	$fh->print("\t\t\t\t\t\t<mods:dateCreated encoding=\"w3cdtf\" keyDate=\"yes\">$year<\/mods:dateCreated>\n");
+
+	if ($year =~ m/\d\d\d\d/)
+	{
+		$fh->print("\t\t\t\t\t\t<mods:dateCreated>$year<\/mods:dateCreated>\n");
+		$fh->print("\t\t\t\t\t\t<mods:dateCreated encoding=\"w3cdtf\" keyDate=\"yes\">$year<\/mods:dateCreated>\n");
+	}
+	elsif ($year =~ m/unknown/i)
+	{
+		$fh->print("\t\t\t\t\t\t<mods:dateCreated>$year<\/mods:dateCreated>\n");
+		$fh->print("\t\t\t\t\t\t<mods:dateCreated encoding=\"w3cdtf\" point=\"start\" keyDate=\"yes\">1716<\/mods:dateCreated>\n");
+		$fh->print("\t\t\t\t\t\t<mods:dateCreated encoding=\"w3cdtf\" point=\"end\">1930<\/mods:dateCreated>\n");
+
+
+	}
+
 	$fh->print("\t\t\t\t\t\t<mods:issuance>monographic<\/mods:issuance>\n");
 	$fh->print("\t\t\t\t\t<\/mods:originInfo>\n");
 	$fh->print("\t\t\t\t\t<mods:language>\n");
@@ -414,7 +431,7 @@ sub metsHdr
 	my $fh=shift;
 	my $row=shift;
 	my ($year,$number,$type,$primaryLocation,$description,$names,$otherLocations) = @$row;
-	$number = sprintf("%04d", $number);
+	#$number = sprintf("%04d", $number);
 
 	$fh->print("<?xml version='1.0' encoding='UTF-8' ?>\n");
 	$fh->print("<mets:mets OBJID=\"law.brooker.$number\" LABEL=\"The Robert E. Brooker III Collection of American Legal and Land Use Documents. No. $number\" TYPE=\"manuscript\" xmlns:mets=\"http://www.loc.gov/METS/\"
