@@ -6,6 +6,7 @@ use Win32::OLE::Const 'Microsoft Excel';
 use IO::File;
 use File::Slurp;
 
+
 $Win32::OLE::Warn = 3; # Die on Errors.
 
 # ::Warn = 2; throws the errors, but #
@@ -75,7 +76,13 @@ sub structMap
 
 	###Second level divs
 	my @labelList;
-	if ($labels){@labelList = split(";", $labels);}
+
+	if ($labels)
+	{
+		
+		@labelList = split(";", $labels);
+
+	}
 	else 
 	{
 		@labelList = ("Side a", "Side b", "Side c", "Side d", "Side e", "Side f", "Side g", "Side h", "Side i", "Side j", "Side k", "Side l", "Side m", "Side n", "Side o", "Side p", "Side q", "Side r", "Side s", "Side t", "Side u", "Side v", "Side w", "Side x", "Side y", "Side z","Side aa", "Side ab", "Side ac", "Side ad", "Side ae", "Side af", "Side ag", "Side ah", "Side ai", "Side aj", "Side ak", "Side al", "Side am", "Side an", "Side ao", "Side ap", "Side aq", "Side ar", "Side as", "Side at", "Side au", "Side av", "Side aw", "Side ax", "Side ay", "Side az", );
@@ -90,6 +97,7 @@ sub structMap
 		{
 			$i++;
 			$labelList[$i-1] =~ s/^\s+|\s+$//g;
+			$labelList[$i-1] =~ s/&/&amp;/g;
 			$fh->print("\t\t\t<mets:div TYPE=\"page\" LABEL=\"No. $number\/". $labelList[$i-1] ."\" ORDER=\"$i\" ORDERLABEL=\"".lc($labelList[$i-1])."\">\n");
 	#####fptrs
 			$fh->print("\t\t\t\t<mets:fptr FILEID=\"t".sprintf("%04d", $i)."\"/>\n"); 
