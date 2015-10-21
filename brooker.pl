@@ -299,6 +299,7 @@ sub mods
 	{
 		my $abstract = $description;
 		$abstract =~s/ Color facsimile copy of original document\.//; 
+		$abstract =~ s/&/&amp;/g;
 		$fh->print("\t\t\t\t\t<mods:abstract>$abstract<\/mods:abstract>\n");
 	}
 
@@ -308,10 +309,10 @@ sub mods
 	$fh->print("\t\t\t\t\t<mods:note>Primary location: $primaryLocation.<\/mods:note>\n");
 
 	if ($otherLocations ne "None") {$fh->print("\t\t\t\t\t<mods:note>Other locations: $otherLocations.<\/mods:note>\n");};
-	$fh->print("\t\t\t\t\t<mods:note type=\"reproduction\">Electronic reproduction. Chestnut Hill, Mass. : University Libraries, Boston College, 2010.<\/mods:note>\n");
+	$fh->print("\t\t\t\t\t<mods:note type=\"reproduction\">Electronic reproduction. Chestnut Hill, Mass. : University Libraries, Boston College, 2015.<\/mods:note>\n");
 	$fh->print("\t\t\t\t\t<mods:note type=\"original location\">Brooker Collection, Daniel R. Coquillette Rare Book Room, Boston College Law Library.<\/mods:note>\n");
 
-	modsHierarchicalGeographic($primaryLocation, $fh);
+	if ($primaryLocation ne "Unknown") {modsHierarchicalGeographic($primaryLocation, $fh)};
 
 	if ($otherLocations ne "None") {modsHierarchicalGeographicOther($otherLocations, $fh);};
 
@@ -353,9 +354,14 @@ sub modsHierarchicalGeographic
 	my $townCounty = $';
 	$state =~ s/\s+$//;
 
-	$fh->print("\t\t\t\t\t<mods:subject>\n");
-	$fh->print("\t\t\t\t\t\t<mods:hierarchicalGeographic>\n");
-	$fh->print("\t\t\t\t\t\t\t<mods:state>$state<\/mods:state>\n");
+	if ($state)
+	{
+
+		$fh->print("\t\t\t\t\t<mods:subject>\n");
+		$fh->print("\t\t\t\t\t\t<mods:hierarchicalGeographic>\n");
+		$fh->print("\t\t\t\t\t\t\t<mods:state>$state<\/mods:state>\n");
+
+	}	
 
 	#town and county
 	if ($townCounty =~ m/\(([A-Za-z\s]*), ([A-Za-z\s*]*)\){1}/)
