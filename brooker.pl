@@ -137,8 +137,8 @@ sub fileSec
 
 		{
 			$i++;
-			die "WARNING: more than 52 componenent files\n"
-				if ($i eq 53);  #script only set up to handle 52 components
+			#die "WARNING: more than 52 componenent files\n"
+			#	if ($i eq 53);  #script only set up to handle 52 components
 						    #add more components if script fails	
 			$fh->print("\t\t\t<mets:file ID=\"t" . sprintf("%04d", $i) ."\" MIMETYPE=\"image\/tiff\" GROUPID=\"GID".$i."\" SEQ=\"$i\">\n");
 			$fh->print("\t\t\t\t<mets:FLocat xlink:href=\"file://streams/" . $_ . ".tif\" LOCTYPE=\"URL\"\/>\n"); 
@@ -284,7 +284,7 @@ sub mods
 	$fh->print("\t\t\t\t\t\t<mods:internetMediaType>image\/jpeg<\/mods:internetMediaType>\n");
 	$fh->print("\t\t\t\t\t\t<mods:internetMediaType>image\/jp2<\/mods:internetMediaType>\n");
 	$fh->print("\t\t\t\t\t\t<mods:internetMediaType>image\/tiff<\/mods:internetMediaType>\n");
-	$fh->print("\t\t\t\t\t\t<mods:digitalOrigin>digitized other analog<\/mods:digitalOrigin>\n");
+	$fh->print("\t\t\t\t\t\t<mods:digitalOrigin>reformatted digital<\/mods:digitalOrigin>\n");
 
 	if ($description && ($description =~ m/facsim/)) 
 	{
@@ -309,7 +309,7 @@ sub mods
 	$fh->print("\t\t\t\t\t<mods:note>Primary location: $primaryLocation.<\/mods:note>\n");
 
 	if ($otherLocations ne "None") {$fh->print("\t\t\t\t\t<mods:note>Other locations: $otherLocations.<\/mods:note>\n");};
-	$fh->print("\t\t\t\t\t<mods:note type=\"reproduction\">Electronic reproduction. Chestnut Hill, Mass. : University Libraries, Boston College, 2015.<\/mods:note>\n");
+	$fh->print("\t\t\t\t\t<mods:note type=\"reproduction\">Electronic reproduction. Chestnut Hill, Mass. : University Libraries, Boston College, 2016.<\/mods:note>\n");
 	$fh->print("\t\t\t\t\t<mods:note type=\"original location\">Brooker Collection, Daniel R. Coquillette Rare Book Room, Boston College Law Library.<\/mods:note>\n");
 
 	if ($primaryLocation ne "Unknown") {modsHierarchicalGeographic($primaryLocation, $fh)};
